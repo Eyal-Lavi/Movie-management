@@ -1,0 +1,70 @@
+# Logs
+logs
+*.log
+
+# Build outputs
+bin/
+obj/
+
+# Local environment
+*.local
+.env
+
+# Editor directories and files
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ASP.NET Core specific
+bin/
+obj/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Binary dependencies
+*.dll
+*.exe
+*.pdb
+*.mdb
+*.ilk
+*.log
+*.vspscc
+*.vssscc
+
+# Build outputs
+*.cache
+*.moc
+*.ilk
+*.log
+*.obj
+*.pch
+*.pdb
+*.ipch
+*.aps
+*.ncb
+*.sdf
+*.opensdf
+*.tlog
+
+# NuGet packages
+*.nupkg
+packages/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Local environment settings
+*.local.settings.json
+local.settings.json
+
+# Visual Studio specific
+.vs/

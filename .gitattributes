@@ -1,0 +1,23 @@
+# Set the default behavior for all files
+* text=auto
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout.
+*.c text
+*.h text
+*.ts text
+*.tsx text
+*.js text
+*.jsx text
+*.css text
+*.html text
+*.json text
+
+# Declare files that will always have LF line endings on checkout.
+*.sh text eol=lf
+
+# Declare binary files to avoid modifying them.
+*.png binary
+*.jpg binary
+*.gif binary
+*.pdf binary

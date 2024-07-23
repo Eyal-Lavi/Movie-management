@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  /* width: 100vw; */
+  min-height: 100vh;
+}
+#root{
+  width: 100%;
+  min-height: 100vh;
+}
+*{
+  margin: 0;
+  padding: 0;
+}
+form > a {
+  margin-left: 1rem;
+}
+
+.pointer{
+  cursor: pointer;
+}
+.table a{
+  margin-right: 1rem;
+}
