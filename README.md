@@ -1,4 +1,4 @@
-# Movie Management System
+# Movie Management
 
 ## Overview
 This project is a web-based system for managing movies, actors, genres, and movie theaters. It includes a dynamic user interface built with React and Bootstrap on the client-side, and an ASP.NET Core backend with Entity Framework Core for data management. The system provides full CRUD capabilities, user input validation, and error handling.
@@ -32,10 +32,6 @@ This project is a web-based system for managing movies, actors, genres, and movi
 - **Database:**
   - SQL Server
 
-- **Tools:**
-  - AutoMapper
-  - FluentValidation
-
 ## Architecture
 
 ### Frontend:
@@ -54,24 +50,3 @@ This project is a web-based system for managing movies, actors, genres, and movi
 ### Database:
 - SQL Server is used as the primary database.
 - Database schema and migrations are managed using Entity Framework Core.
-
-## Important Files
-
-### Client (React & TypeScript):
-- `App.tsx`: Main application component.
-- `CreateMovie.tsx`: Component for creating a new movie.
-- `EditActor.tsx`: Component for editing an existing actor.
-- `MoviesList.tsx`: Component for displaying the list of movies.
-- `index.css`: Global CSS file for the application.
-
-### Server (ASP.NET Core):
-- `Program.cs`: Main entry point for the server.
-- `GenresController.cs`: Controller for managing genres.
-- `ApplicationDbContext.cs`: Database context using Entity Framework Core.
-- `AutoMapperProfiles.cs`: Configuration for object mapping using AutoMapper.
-
-## Setup and Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/yourusername/movie-management-system.git
