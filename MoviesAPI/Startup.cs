@@ -25,6 +25,19 @@ namespace MoviesAPI
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(MyExeptionFilter));
+                options.Filters.Add(typeof(ParseBadRequest));
+            }).ConfigureApiBehaviorOptions(BadRequestsBehavior.Parse);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MoviesAPI", Version = "v1" });
+            });
+
             services.AddCors(options =>
             {
                 var frontendURL = Configuration.GetValue<string>("frontend_url"); // משיכה מ - appsettings.Development.json
@@ -35,32 +48,17 @@ namespace MoviesAPI
                                .AllowAnyOrigin()// מאפשר לכל מקור לשלוח בקשות
                                .AllowAnyHeader()// מאפשר כל כותרת בבקשה
                                .AllowAnyMethod()// מאפשר כל שיטת HTTP (GET, POST, וכו')
-                               .WithExposedHeaders(new string[] { "totalAmountOfRecords" }); // מאפשר חשיפה של הכותרת "totalAmountOfRecords"
+                               .WithExposedHeaders(new string[] { "totalAmountOfRecords" }); // מאפשר חשיפה של הכותרת "totalAmountOfRecords" (שהלקוח יראה את זה)
                 });
             });
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddControllers(options =>
-            {
-                options.Filters.Add(typeof(MyExeptionFilter));
-                options.Filters.Add(typeof(ParseBadRequest));
-            }).ConfigureApiBehaviorOptions(BadRequestsBehavior.Parse);
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
-
-            // הוספת שירותי Swagger
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MoviesAPI", Version = "v1" });
-            });
-
-            services.AddEndpointsApiExplorer();
+            services.AddEndpointsApiExplorer(); // תיעוד נקודות קצה ב (swagger)
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-            // Configure the HTTP request pipeline.
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -70,17 +68,16 @@ namespace MoviesAPI
 
             app.UseHttpsRedirection(); // http to https
 
+            app.UseRouting(); // שימוש בניווט
+
             app.UseCors();
 
             app.UseAuthentication(); // אימות
 
             app.UseAuthorization(); // הרשאה
 
-            //ReadAndLogResponse(app, logger);
 
-            app.UseRouting(); // שימוש בניווט
-
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints => // שולח לפי הנתונים שהתקבלו ב useRoutning
             {
                 endpoints.MapControllers();
             });
