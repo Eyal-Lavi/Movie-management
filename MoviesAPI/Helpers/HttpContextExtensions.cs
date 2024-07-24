@@ -11,7 +11,7 @@ namespace MoviesAPI.Helpers
 
             double count = await queryable.CountAsync();// ספירת הרשומות הכוללת במסד הנתונים.
 
-            httpContext.Response.Headers.Add("totalAmountRecords", count.ToString());// הוספת מספר הרשומות הכולל לכותרות התגובה.
+            httpContext.Response.Headers.Add("totalAmountOfRecords", count.ToString());// הוספת מספר הרשומות הכולל לכותרות התגובה.
         }
     }
 }
