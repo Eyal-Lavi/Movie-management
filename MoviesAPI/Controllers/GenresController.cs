@@ -36,43 +36,41 @@ namespace MoviesAPI.Controllers
             return mapper.Map<List<GenreDTO>>(genres);// map genre entites to genreDTO
         }
 
-        [HttpGet("{Id:int}", Name = "getGenre")] // endpoit -> 7139/api/genres/2
+        [HttpGet("{Id:int}")] // endpoit -> 7139/api/genres/2
         public async Task<ActionResult<Genre>> Get(int Id)
         {
-            logger.LogCritical($"Getting genre by id {Id}");
             var genre = await context.Genres.FirstOrDefaultAsync(g => g.Id == Id);
 
             if (genre == null)
             {
                 return NotFound();
             }
-
-            return Ok(genre);
+            return mapper.Map<Genre>(genre);
         }
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] GenreCreationDTO GenreCreationDTO)
+        public async Task<ActionResult> Post([FromBody] GenreCreationDTO genreCreationDTO)
         {
-            var genre = mapper.Map<Genre>(GenreCreationDTO);
-
+            var genre = mapper.Map<Genre>(genreCreationDTO);
+            
             context.Add(genre);
             await context.SaveChangesAsync();
 
             return NoContent();
         }
-        [HttpPut]
-        public async Task<ActionResult> Put([FromBody] Genre genre) // update 
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Put(int id, [FromBody] GenreCreationDTO genreCreationDTO) // update 
         {
-            //Console.WriteLine(genre.Id + genre.Name);
-            var genreToUpdate = await context.Genres.FirstOrDefaultAsync(g => g.Id == genre.Id);
+            Console.WriteLine($"genreCreationDTO : {genreCreationDTO} , genreCreationDTO?.Name : {genreCreationDTO?.Name}");
 
-            if (genreToUpdate == null)
+            var genre = await context.Genres.FirstOrDefaultAsync(g => g.Id == id);
+            
+            if (genre == null)
             {
                 return NotFound();
             }
 
-            genreToUpdate.Name = genre.Name;
+            genre = mapper.Map<GenreCreationDTO,Genre>(genreCreationDTO , genre); // משנה את אותו ע"י השמה של ערך חדש שמומר באמצעות ה mapper
             await context.SaveChangesAsync();
-
             return NoContent();
         }
         [HttpDelete]
