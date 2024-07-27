@@ -73,18 +73,17 @@ namespace MoviesAPI.Controllers
             await context.SaveChangesAsync();
             return NoContent();
         }
-        [HttpDelete]
-        public async Task<ActionResult> Delete([FromHeader] int Id)
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
         {
-            Console.WriteLine(Id);
-            var genre = await context.Genres.FirstOrDefaultAsync(g => g.Id == Id);
+            var exists = await context.Genres.AnyAsync(genre => genre.Id == id); // בודק האם קיים
 
-            if (genre == null)
+            if (!exists)
             {
                 return NotFound();
             }
 
-            context.Genres.Remove(genre);
+            context.Genres.Remove(new Genre { Id = id });
             await context.SaveChangesAsync();
             return NoContent();
         }
