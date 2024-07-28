@@ -38,15 +38,15 @@ export default function IndexEntity<T>(props: indexEntityProps<T>){
             }
         }
     }
-
-    const buttons = (editUrl: string , id: number) =><>
+    const buttons = (editUrl: string , id: number) =>
+        <>
           <Link className="btn btn-success"
-                                     to={editUrl}>Edit</Link>
-                                    <Button 
-                                        className="btn btn-danger" 
-                                        onClick={()=> customConfirm(() => deleteEntity(id))}>Delete</Button>
-                                
-    </>
+                to={editUrl}>Edit</Link>
+            <Button 
+                className="btn btn-danger" 
+                onClick={()=> customConfirm(() => deleteEntity(id))}>Delete</Button>
+        </>
+
     return(
         <>
             <h3>{props.title}</h3>
