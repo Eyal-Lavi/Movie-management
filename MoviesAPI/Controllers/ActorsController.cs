@@ -16,7 +16,7 @@ namespace MoviesAPI.Controllers
         private readonly IFileStorageService fileStorageService;
         private readonly string containerName = "actors";
 
-        public ActorsController(ILogger<ActorsController> logger, ApplicationDbContext context, IMapper mapper , IFileStorageService fileStorageService)
+        public ActorsController(ILogger<ActorsController> logger, ApplicationDbContext context, IMapper mapper, IFileStorageService fileStorageService)
         {
             this.logger = logger;
             this.context = context;
@@ -59,25 +59,11 @@ namespace MoviesAPI.Controllers
 
             if (actorCreationDTO.Picture != null)
             {
-                try
-                {
-                    actor.Picture = await fileStorageService.SaveFile(containerName, actorCreationDTO.Picture);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
+                actor.Picture = await fileStorageService.SaveFile(containerName, actorCreationDTO.Picture);
             }
 
             context.Actors.Add(actor);
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            await context.SaveChangesAsync();
             return NoContent();
         }
 
