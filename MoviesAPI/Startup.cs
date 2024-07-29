@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MoviesAPI.APIBehavior;
 using MoviesAPI.Filters;
+using MoviesAPI.Helpers;
 
 namespace MoviesAPI
 {
@@ -53,6 +54,8 @@ namespace MoviesAPI
             });
 
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddScoped<IFileStorageService, AzureStorageService>();
 
             services.AddEndpointsApiExplorer(); // תיעוד נקודות קצה ב (swagger)
         }
