@@ -11,8 +11,8 @@ export function convertActorToFormData(actor: actorCreationDTO): FormData{
     if(actor.picture){
         formData.append('picture',actor.picture);
     }
-    if(actor.DateOfBirth){
-        formData.append('DateOfBirth',formatDate(actor.DateOfBirth));
+    if(actor.dateOfBirth){
+        formData.append('dateOfBirth',formatDate(actor.dateOfBirth));
     }
 
     return formData;

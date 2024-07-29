@@ -6,7 +6,6 @@ import { actorCreationDTO } from "./actors.model";
 import { convertActorToFormData } from "../utils/formDataUtils";
 import { useHistory } from "react-router-dom";
 import DisplayErrors from "../utils/DisplayErrors";
-
 export default function CreateActor(){
     const [errors , setErrors] = useState<string[]>([]);
     const history = useHistory();
@@ -35,13 +34,14 @@ export default function CreateActor(){
 
     return(<>
         <h1>Create Actor</h1>
-        {errors ?? <DisplayErrors errors={errors}/>}
+        {errors.length > 0 && <DisplayErrors errors={errors}/>}
         <ActorForm 
             model={{
                 name:'',
-                DateOfBirth: undefined,
+                dateOfBirth: undefined,
             }} 
-            onSubmit={async (values)=> {await create(values)}
+            onSubmit={async (values)=> {console.log(values);
+             await create(values)}
             }/>
     </>)
 }
