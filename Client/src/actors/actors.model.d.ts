@@ -1,9 +1,9 @@
 export interface actorCreationDTO{
     name: string;
-    dateOfBirt?: Date;
+    DateOfBirth?: Date;
     picture?: File;
-    pictureURL?: string;
-    biography: string;
+    // pictureURL?: string;
+    biography?: string;
 }
 export interface actorMovieDTO{
     id: number;
