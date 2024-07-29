@@ -13,12 +13,15 @@ namespace MoviesAPI.Controllers
         private readonly ILogger logger;
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
+        private readonly IFileStorageService fileStorageService;
+        private readonly string containerName = "actors";
 
-        public ActorsController(ILogger<ActorsController> logger, ApplicationDbContext context, IMapper mapper)
+        public ActorsController(ILogger<ActorsController> logger, ApplicationDbContext context, IMapper mapper , IFileStorageService fileStorageService)
         {
             this.logger = logger;
             this.context = context;
             this.mapper = mapper;
+            this.fileStorageService = fileStorageService;
         }
 
         [HttpGet]// endpoit -> 7139/api/actors
@@ -52,10 +55,29 @@ namespace MoviesAPI.Controllers
         [HttpPost]// endpoit -> 7139/api/actors
         public async Task<ActionResult> Post([FromForm] ActorCreationDTO actorCreationDTO)
         {
-            //var actor = mapper.Map<Actor>(actorCreationDTO);
-            //context.Actors.Add(actor);
-            //await context.SaveChangesAsync();
+            var actor = mapper.Map<Actor>(actorCreationDTO);
 
+            if (actorCreationDTO.Picture != null)
+            {
+                try
+                {
+                    actor.Picture = await fileStorageService.SaveFile(containerName, actorCreationDTO.Picture);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
+
+            context.Actors.Add(actor);
+            try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
             return NoContent();
         }
 
