@@ -57,6 +57,9 @@ namespace MoviesAPI
 
             services.AddScoped<IFileStorageService, AzureStorageService>();
 
+            //services.AddScoped<IFileStorageService, InAppStorageService>();// For Save local
+            //services.AddHttpContextAccessor();// For Save local
+
             services.AddEndpointsApiExplorer(); // תיעוד נקודות קצה ב (swagger)
         }
 
@@ -70,6 +73,8 @@ namespace MoviesAPI
             }
 
             app.UseHttpsRedirection(); // http to https
+
+            //app.UseStaticFiles(); // For Save local
 
             app.UseRouting(); // שימוש בניווט
 
