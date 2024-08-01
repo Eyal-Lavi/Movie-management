@@ -31,7 +31,7 @@ namespace MoviesAPI.Controllers
         {
             var queryable = context.Genres.AsQueryable(); // יצירת IQueryable לכל הז'אנרים.
             await HttpContext.InsertParametersPaginationInHeader(queryable);
-            var genres = await queryable.OrderBy(x => x.Name).Pagination(paginationDTO).ToListAsync();// עימוד ומיון הז'אנרים.
+            var genres = await queryable.OrderBy(x => x.Name).Paginate(paginationDTO).ToListAsync();// עימוד ומיון הז'אנרים.
 
             return mapper.Map<List<GenreDTO>>(genres);// map genre entites to genreDTO
         }
