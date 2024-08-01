@@ -39,6 +39,8 @@ export default function CreateActor(){
             model={{
                 name:'',
                 dateOfBirth: undefined,
+                picture:undefined,
+                biography: '',
             }} 
             onSubmit={async (values)=> {console.log(values);
              await create(values)}

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { urlGenres } from "../endpoints";
 import IndexEntity from "../utils/IndexEntity";
 import { genreDTO } from "./genres.model";

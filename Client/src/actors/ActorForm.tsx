@@ -15,7 +15,9 @@ export default function ActorForm(props: actorFromProps){
         onSubmit={props.onSubmit}
         validationSchema={Yup.object({
             name: Yup.string().required('This field is required').firstLetterUppercase(),
-            dateOfBirth: Yup.date().nullable().required('This field is required')
+            dateOfBirth: Yup.date().nullable().required('This field is required'),
+            biography: Yup.string().required('This field is required'),
+            picture: props.model.pictureURL ? Yup.mixed().nullable() : Yup.mixed().required('This field is required').nullable()
         })}
         >
             {(formikProps) => (
@@ -24,7 +26,7 @@ export default function ActorForm(props: actorFromProps){
                     <DateField displayName="Date of Birth" field="dateOfBirth"/>
                     <ImageField displayName="Picture" field="picture"
                     imageURL={props.model.pictureURL}/>
-                    <MarkdownField dispalyName="Biography" field="biography"/>
+                    <MarkdownField displayName="Biography" field="biography"/>
 
                     <Button disabled={formikProps.isSubmitting}
                     type="submit"
