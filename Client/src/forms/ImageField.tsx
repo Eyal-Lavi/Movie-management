@@ -1,11 +1,11 @@
-import { useFormikContext } from "formik";
+import { ErrorMessage, useFormikContext } from "formik";
 import { ChangeEvent, useState } from "react";
 
 export default function ImageField(props: imageFieldProps){
 
 const [imageBase64 , setImageBase64] = useState('');
 const [imageURL , setImageURL] = useState(props.imageURL);
-const {values} = useFormikContext<any>();
+const {setFieldValue} = useFormikContext<any>();
 
 const divStyle = {marginTop: '10px'};
 const imageStyle = {width: '450px'};
@@ -18,10 +18,11 @@ const imageStyle = {width: '450px'};
                 toBase64(file)
                  .then((base64Representation : string) => setImageBase64(base64Representation))
                 .catch(error => console.log(error));
-                values[props.field] = file;
                 setImageURL('');
+                setFieldValue(props.field, file);
             }else{
                 setImageBase64('');
+                setFieldValue(props.field, null);
             }
         }
     }
@@ -54,6 +55,9 @@ const imageStyle = {width: '450px'};
                     <img style={imageStyle} src={imageURL} alt="selected" />
                 </div>
             </div> : null}
+            <ErrorMessage name={props.field}>
+                {msg => <div className="text-danger">{msg}</div>}
+            </ErrorMessage>
         </div>
     )
 }
@@ -65,4 +69,8 @@ interface imageFieldProps{
 
 ImageField.defaultProps = {
     imageURL: '',
+}
+
+function validateForm() {
+    throw new Error("Function not implemented.");
 }

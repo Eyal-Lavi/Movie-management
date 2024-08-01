@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MoviesAPI.APIBehavior;
 using MoviesAPI.Filters;
+using MoviesAPI.Helpers;
 
 namespace MoviesAPI
 {
@@ -54,6 +55,11 @@ namespace MoviesAPI
 
             services.AddAutoMapper(typeof(Startup));
 
+            services.AddScoped<IFileStorageService, AzureStorageService>();
+
+            //services.AddScoped<IFileStorageService, InAppStorageService>();// For Save local
+            //services.AddHttpContextAccessor();// For Save local
+
             services.AddEndpointsApiExplorer(); // תיעוד נקודות קצה ב (swagger)
         }
 
@@ -67,6 +73,8 @@ namespace MoviesAPI
             }
 
             app.UseHttpsRedirection(); // http to https
+
+            //app.UseStaticFiles(); // For Save local
 
             app.UseRouting(); // שימוש בניווט
 
