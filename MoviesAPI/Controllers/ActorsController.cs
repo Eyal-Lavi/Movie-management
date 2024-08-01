@@ -25,18 +25,13 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpGet]// endpoit -> 7139/api/actors
-        public async Task<ActionResult<List<ActorDTO>>> Get([FromQuery] PaginationDTO pagination)
+        public async Task<ActionResult<List<ActorDTO>>> Get([FromQuery] PaginationDTO paginationDTO)
         {
-            //var queryable = context.Actors.AsQueryable();
+            var queryable = context.Actors.AsQueryable();
+            await HttpContext.InsertParametersPaginationInHeader(queryable);
+            var actors = await queryable.OrderBy(x => x.Name).Paginate(paginationDTO).ToListAsync();
+            queryable.Paginate(paginationDTO);
 
-            //await HttpContext.InsertParametersPaginationInHeader(queryable);
-
-            //var actors = await queryable.OrderBy(x => x.Name).Pagination(pagination).ToListAsync();
-
-            //return mapper.Map<List<ActorDTO>>(actors);// map actor entites to actorsDTO
-
-
-            var actors = await context.Actors.ToListAsync();
             return mapper.Map<List<ActorDTO>>(actors);// map actor entites to actorsDTO
         }
 
@@ -77,7 +72,14 @@ namespace MoviesAPI.Controllers
                 return NotFound();
             }
 
-            mapper.Map<ActorCreationDTO, Actor>(actorCreationDTO, actor);
+            actor = mapper.Map<ActorCreationDTO, Actor>(actorCreationDTO, actor);
+
+            if(actorCreationDTO.Picture != null)
+            {
+                actor.Picture = await fileStorageService
+                    .EditFile(containerName, actorCreationDTO.Picture, actor.Picture);
+            }
+
             await context.SaveChangesAsync();
             return NoContent();
         }
@@ -85,15 +87,16 @@ namespace MoviesAPI.Controllers
         [HttpDelete("{id:int}")]// endpoit -> 7139/api/actors/id:int
         public async Task<ActionResult> Delete(int id)
         {
-            var exists = await context.Actors.AnyAsync(actor => actor.Id == id);
+            var actor = await context.Actors.FirstOrDefaultAsync(actor => actor.Id == id);
 
-            if (!exists)
+            if (actor == null)
             {
                 return NotFound();
             }
-
-            context.Actors.Remove(new Actor { Id = id });
+            
+            context.Actors.Remove(actor);
             await context.SaveChangesAsync();
+            await fileStorageService.DeleteFile(actor.Picture, containerName);
             return NoContent();
         }
     }
