@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +8,8 @@ using Microsoft.OpenApi.Models;
 using MoviesAPI.APIBehavior;
 using MoviesAPI.Filters;
 using MoviesAPI.Helpers;
+using NetTopologySuite;
+using NetTopologySuite.Geometries;
 
 namespace MoviesAPI
 {
@@ -23,7 +26,8 @@ namespace MoviesAPI
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                sqlOptions => sqlOptions.UseNetTopologySuite());
             });
 
             services.AddControllers(options =>
@@ -54,6 +58,17 @@ namespace MoviesAPI
             });
 
             services.AddAutoMapper(typeof(Startup));
+            
+            // For adding GeometryFactory to the mapper
+            services.AddSingleton(provider => new MapperConfiguration(config =>
+            {
+                var geometryFactory = provider.GetRequiredService<GeometryFactory>();
+                config.AddProfile(new AutoMapperProfiles(geometryFactory)); //הפרופיל מקבל את geometryFactory כדי לטפל במיפויים גיאומטריים
+            }).CreateMapper());
+
+            //כל פעם שנדרשת אובייקט של GeometryFactory, יתקבל אותו מופע
+            services.AddSingleton<GeometryFactory>(NtsGeometryServices
+                .Instance.CreateGeometryFactory(srid: 4326));
 
             services.AddScoped<IFileStorageService, AzureStorageService>();
 
