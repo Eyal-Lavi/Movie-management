@@ -31,6 +31,8 @@ export default function EditEntity<TCreation , TRead>
                     headers: {'Content-Type': 'multipart/form-data'}
                 })
             } else{
+                console.log("entityToEdit:");
+                console.log(entityToEdit);
                 await axios.put(`${props.url}/${id}`, entityToEdit);
             }
         }

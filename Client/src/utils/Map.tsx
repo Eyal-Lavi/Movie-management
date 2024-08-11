@@ -16,9 +16,12 @@ L.Marker.prototype.options.icon = defaultIcon;
  
 export default function Map(props: mapProps){
     const [coordinates , setCoordinates] = useState<coordinatesDTO[]>(props.coordinates)
+    //[32.100958963482896, 34.8268164766466]
+    console.log(coordinates);
+    
     return(
         <MapContainer
-            center={[32.100958963482896, 34.8268164766466]} zoom={16}
+            center={coordinates[0] ? coordinates[0] : [32.100958963482896, 34.8268164766466]} zoom={16}
             style={{height: props.height}}
         >
             <TileLayer attribution="Movies" 

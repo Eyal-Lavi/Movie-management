@@ -51,7 +51,7 @@ namespace MoviesAPI.Controllers
             return NoContent();
         }
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(int id ,MovieTheaterCreationDTO movieCreationDTO)
+        public async Task<ActionResult> Put(int id ,[FromBody] MovieTheaterCreationDTO movieCreationDTO)
         {
             var movieTheater = await context.MovieTheaters.FirstOrDefaultAsync(x => x.Id == id);
 
