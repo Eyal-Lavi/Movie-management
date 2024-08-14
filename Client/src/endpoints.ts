@@ -2,4 +2,5 @@ const baseURL = import.meta.env.VITE_REACT_APP_API_URL; //יבוא מהמשתנ�
 export const urlGenres = `${baseURL}/genres`;
 export const urlActors = `${baseURL}/actors`;
 export const urlMovieTheaters = `${baseURL}/movietheaters`;
+export const urlMovies = `${baseURL}/movies`;
 
