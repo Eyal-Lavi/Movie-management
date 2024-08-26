@@ -73,7 +73,7 @@ export default function MovieForm(props: movieFormProps) {
                     />
                     <TypeAheadActors displayName="Actors" actors={selectedActors} 
                         onAdd={actors =>{
-                        setSelectedActors(actors)
+                            setSelectedActors(actors)
                         }}
                         onRemove={actor => {
                             const actors = selectedActors.filter(x => x !== actor)
