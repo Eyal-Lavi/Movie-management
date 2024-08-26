@@ -1,4 +1,6 @@
 import { actorMovieDTO } from "../actors/actors.model";
+import { genreDTO } from "../genres/genres.model";
+import { movieTheaterDTO } from "../movieTheaters/movieTheater.model";
 
 export interface movieDTO {
      id: number;
@@ -19,4 +21,9 @@ export interface movieCreationDTO{
 export interface landingPageDTO{
      inTheaters?: movieDTO[];
      upcomingReleases?:  movieDTO[];
+}
+
+export interface moviesPostGetDTO{
+     genres: genreDTO[];
+     movieTheaters: movieTheaterDTO[];
 }

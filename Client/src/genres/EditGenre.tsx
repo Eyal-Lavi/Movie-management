@@ -11,7 +11,7 @@ export default function EditGenre(){
                     entityName="Genres"
                     indexURL="/genres"
                 >
-                    {(entity , edit) => // 
+                    {(entity , edit) =>
                         <GenreForm model={entity}
                             onSubmit={async value => {
                                 console.log(value);
